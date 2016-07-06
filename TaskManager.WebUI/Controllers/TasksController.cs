@@ -46,24 +46,133 @@ namespace TaskManager.WebUI.Controllers
                                 .Where(t => !t.IsComplete && t.DueTime.Ticks < DateTime.Now.Ticks)
                                 .ToList<ToDoTask>();
                         } break;
-                    default:
-                        throw new ArgumentException("Unexpected index mode");
+                    default: break; // all tasks;
                 }
             }
 
-            var taskGroups = from task in tasks
+            var taskGroups = (from task in tasks
                              group task by task.DueTime.Date into tasksGroup
                              select new TasksIndexModel.TasksGroup
                                  {
                                      Date = tasksGroup.Key,
                                      Tasks = tasksGroup.ToList<ToDoTask>()
-                                 };
+                                 }).OrderBy(taskGroup => taskGroup.Date);
 
             return View(new TasksIndexModel
             {
                 IndexMode = indexMode,
                 GroupsByDate = taskGroups
             });
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int taskId, string returnUrl)
+        {
+            ToDoTask task = null;
+
+            using (var db = new TaskManagerContext())
+            {
+                task = db.ToDoTasks
+                    .FirstOrDefault(t => t.Id == taskId);
+            }
+
+            return View(new ToDoTaskModel
+                {
+                    ReturnUrl = returnUrl,
+                    TheTask = task
+                });
+        }
+
+        [HttpPost]
+        public ActionResult Edit(ToDoTaskModel taskModel)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new TaskManagerContext())
+                {
+                    if (taskModel.TheTask.Id == 0)
+                    {
+                        db.ToDoTasks.Add(taskModel.TheTask);
+                    }
+                    else
+                    {
+                        ToDoTask dbEntry = db.ToDoTasks.Find(taskModel.TheTask.Id);
+                        if (dbEntry != null)
+                        {
+                            dbEntry.Title = taskModel.TheTask.Title;
+                            dbEntry.Comment = taskModel.TheTask.Comment;
+                            dbEntry.IsComplete = taskModel.TheTask.IsComplete;
+                            dbEntry.TaskPriority = taskModel.TheTask.TaskPriority;
+                            dbEntry.DueTime = taskModel.TheTask.DueTime;
+                        }
+                    }
+                    db.SaveChanges();
+                }
+
+                TempData["message"] = string.Format(
+                    "'{0}' has been saved", taskModel.TheTask.Title);
+
+                return Redirect(taskModel.ReturnUrl);
+            }
+            else
+            {
+                return View(taskModel);
+            }
+        }
+
+        public ViewResult Create(string returnUrl)
+        {
+            return View("Edit", new ToDoTaskModel
+                {
+                    ReturnUrl = returnUrl,
+                    TheTask = new ToDoTask
+                        {
+                            DueTime = DateTime.Now,
+                            TaskPriority = ToDoTask.Priority.Normal,
+                            IsComplete = false,
+                            OwnerId = User.Identity.GetUserId()
+                        }
+                });
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int taskId, string returnUrl)
+        {
+            using (var db = new TaskManagerContext())
+            {
+                var entry = db.ToDoTasks.FirstOrDefault(t => t.Id == taskId);
+
+                if (entry != null)
+                {
+                    db.ToDoTasks.Remove(entry);
+                    db.SaveChanges();
+
+                    TempData["message"] = string.Format(
+                        "'{0}' has been successfully deleted", entry.Title);
+                }
+            }
+            
+            return Redirect(returnUrl);
+        }
+
+        [HttpPost]
+        public ActionResult MarkAsComplete(int taskId, string returnUrl)
+        {
+            using (var db = new TaskManagerContext())
+            {
+                var entry = db.ToDoTasks.FirstOrDefault(t => t.Id == taskId);
+
+                if (entry != null)
+                {
+                    entry.IsComplete = true;
+                    db.SaveChanges();
+
+                    TempData["message"] = string.Format(
+                        "'{0}' has been marked as complete", entry.Title);
+                }
+            }
+            
+            return Redirect(returnUrl);
         }
     }
 }

@@ -180,6 +180,7 @@
     <Compile Include="Models\DaySummaryModel.cs" />
     <Compile Include="Models\TasksIndexMode.cs" />
     <Compile Include="Models\TasksIndexModel.cs" />
+    <Compile Include="Models\ToDoTaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TaskManagerContext.cs" />
@@ -198,6 +199,7 @@
     <Content Include="Views\Shared\_DaySummaryItemPartial.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Shared\_ToDoTaskGroupPartial.cshtml" />
+    <Content Include="Views\Tasks\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,66 @@
+﻿@model TaskManager.WebUI.Models.ToDoTaskModel
+@using TaskManager.Domain
+
+@{
+    if (Model.TheTask.Id == 0) {
+        ViewBag.Title = "Create new Task"; 
+    } else {
+        ViewBag.Title = string.Format("Edit task '{0}'", Model.TheTask.Title);
+    }
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <p class="edit-panel-heading text-center text-uppercase">@ViewBag.Title</p>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                @using (Html.BeginForm("Edit", "Tasks"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true)
+                    
+                    @Html.HiddenFor(model => model.ReturnUrl)
+                    
+                    @Html.HiddenFor(model => model.TheTask.Id)
+                    @Html.HiddenFor(model => model.TheTask.OwnerId)
+                    @Html.HiddenFor(model => model.TheTask.IsComplete)
+
+                    <div class="form-group">
+                        @Html.Label("Title")
+                        @Html.TextBoxFor(model => model.TheTask.Title, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TheTask.Title)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Comment")
+                        @Html.TextAreaFor(model => model.TheTask.Comment, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TheTask.Comment)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Priority")
+                        @Html.EnumDropDownListFor(model => model.TheTask.TaskPriority, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TheTask.TaskPriority)
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.Label("Due time")
+                        @Html.TextBoxFor(model => model.TheTask.DueTime, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TheTask.DueTime)
+                    </div>
+
+
+                    <div class="form-group">
+                        <div>
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <a href="@Model.ReturnUrl" class="btn btn-default">Cancel</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

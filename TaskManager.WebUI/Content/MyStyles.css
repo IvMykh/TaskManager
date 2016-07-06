@@ -36,6 +36,10 @@ th, td {
     font-family: 'Century Gothic';
 }
 
+.edit-panel-heading {
+    font-weight: bold;
+    font-size: larger;
+}
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,

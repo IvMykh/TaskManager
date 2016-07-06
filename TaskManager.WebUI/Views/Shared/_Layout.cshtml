@@ -1,4 +1,5 @@
 ﻿@using TaskManager.Domain;
+@using TaskManager.WebUI.Models;
 
 <!DOCTYPE html>
 <html>
@@ -27,10 +28,10 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tasks<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("All Tasks", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Complete Tasks", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Pending Tasks", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Overdue tasks", "Index", "Home")</li>
+                        <li>@Html.ActionLink("All Tasks", "Index", "Tasks", new { indexMode = TasksIndexMode.All }, null)</li>
+                        <li>@Html.ActionLink("Complete Tasks", "Index", "Tasks", new { indexMode = TasksIndexMode.Complete }, null)</li>
+                        <li>@Html.ActionLink("Pending Tasks", "Index", "Tasks", new { indexMode = TasksIndexMode.Pending }, null)</li>
+                        <li>@Html.ActionLink("Overdue tasks", "Index", "Tasks", new { indexMode = TasksIndexMode.Overdue }, null)</li>
                     </ul>
                 </li>
 

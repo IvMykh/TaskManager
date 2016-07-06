@@ -48,23 +48,39 @@
                         linkText: Model.Title,
                         actionName: "Edit",
                         controllerName: "Tasks",
-                        routeValues: null,
-                        htmlAttributes: new { @class = "task-title text-center" })
+                        routeValues: new { taskId = Model.Id, returnUrl = Request.Url },
+                        htmlAttributes: new { @class = "task-title text-center" 
+                    })
                 </div>
                 
                 <div class="col-md-1">
                     @if (!Model.IsComplete)
                     {
-                        <a href="@Url.Action("MarkAsComplete", "Tasks")"
-                           class="btn btn-success btn-sm">
-                            <span class="glyphicon glyphicon-ok" />
-                        </a>
+                        <div class="btn-group">
+                        @using (@Html.BeginForm("MarkAsComplete", "Tasks"))
+                        {
+                            @Html.Hidden("taskId", Model.Id)
+                            @Html.Hidden("returnUrl", Request.Url)
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <div class="glyphicon glyphicon-ok"></div>
+                            </button>
+                        }
+                    </div>
                     }
     
-                    <a href="@Url.Action("Remove", "Meal")"
-                       class="btn btn-danger btn-sm">
-                        <span class="glyphicon glyphicon-remove" />
-                    </a>
+                    <div class="btn-group">
+                        @using (@Html.BeginForm("Delete", "Tasks"))
+                        {
+                            @Html.Hidden("taskId", Model.Id)
+                            @Html.Hidden("returnUrl", Request.Url)
+
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <div class="glyphicon glyphicon-remove"></div>
+                            </button>
+                        }
+                    </div>
+
                 </div>
             </div>
         </div>

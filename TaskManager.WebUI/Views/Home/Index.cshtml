@@ -27,8 +27,8 @@
 	                }
                 </div>
                 <div class="panel-footer">
-                    <a href="@Url.Action("CreateNew", "Tasks")"
-                       class="btn btn-success btn-sm">
+                    <a href="@Url.Action("Create", "Tasks", new { returnUrl = Request.Url })"
+                       class="btn btn-success btn-md">
                         <span class="glyphicon glyphicon-plus" />
                     </a>
                 </div>
