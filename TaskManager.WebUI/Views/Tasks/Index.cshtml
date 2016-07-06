@@ -1,4 +1,5 @@
 ﻿@model TaskManager.WebUI.Models.TasksIndexModel
+@using TaskManager.WebUI.Models
 
 @{
     ViewBag.Title = string.Format("Index {0} tasks", Model.IndexMode.ToString());
@@ -10,7 +11,9 @@
         {
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <h2 class="task-list-heading text-center">No tasks for today</h2>
+                    <h2 class="task-list-heading text-center">
+                        No @(Model.IndexMode == TasksIndexMode.All ? "" : Model.IndexMode.ToString()) tasks
+                    </h2>
                 </div>
             </div>
         }

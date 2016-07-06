@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Microsoft.Owin;
 using TaskManager.Domain;
-using TaskManager.WebUI.Models;
 using TaskManager.WebUI.Infrastructure;
+using TaskManager.WebUI.Models;
 
 namespace TaskManager.WebUI.Controllers
 {
@@ -56,6 +50,7 @@ namespace TaskManager.WebUI.Controllers
 
             // user authN failed
             ModelState.AddModelError("", "Invalid user name or password");
+
             return View();
         }
 
@@ -71,16 +66,18 @@ namespace TaskManager.WebUI.Controllers
 
         public ActionResult Logout()
         {
-            var ctx = Request.GetOwinContext();
-            var authManager = ctx.Authentication;
+            var context = Request.GetOwinContext();
+            var authManager = context.Authentication;
 
             authManager.SignOut("ApplicationCookie");
+
             return RedirectToAction("Index", "Home");
         }
 
         private void setupRolesIfNecessary()
         {
             string roleName = AppRole.RoleTypeToString(AppRole.RoleType.User);
+
             if (!RoleManager.RoleExists(roleName))
             {
                 var role = new AppRole();
@@ -116,6 +113,7 @@ namespace TaskManager.WebUI.Controllers
             {
                 UserManager.AddToRole(user.Id, AppRole.RoleTypeToString(AppRole.RoleType.User));
                 await SignIn(user);
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -129,14 +127,14 @@ namespace TaskManager.WebUI.Controllers
 
         private IAuthenticationManager GetAuthenticationManager()
         {
-            var ctx = Request.GetOwinContext();
-            return ctx.Authentication;
+            var context = Request.GetOwinContext();
+
+            return context.Authentication;
         }
 
         private async Task SignIn(AppUser user)
         {
-            var identity = await UserManager.CreateIdentityAsync(
-                user, DefaultAuthenticationTypes.ApplicationCookie);
+            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             GetAuthenticationManager().SignIn(identity);
         }
 

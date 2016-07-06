@@ -45,26 +45,22 @@
             <div class="alert alert-success">@TempData["message"]</div>
         }
 
-        @if (TempData["errorMessage"] != null)
-        {
-            var errors = TempData["errorMessage"] as List<string>;
-
-            foreach (var error in errors)
-            {
-                <div class="alert alert-danger">@(error)</div>
-            }
-        }
-
         <div class="row">
-            <div class="col-md-3">
-                @if (Request.IsAuthenticated)
-                {
-                    @Html.Action("GetDaySummary", "Home")
-                }
-            </div>
-            <div class="col-md-9">
-                @RenderBody()
-            </div>
+            @if (Request.IsAuthenticated)
+            {
+                <div class="col-md-3">
+                        @Html.Action("GetDaySummary", "Home")
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12">
+                    @RenderBody()
+                </div>
+            }
         </div>
         <hr />
         <footer class="panel panel-footer">

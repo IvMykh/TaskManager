@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaskManager.Domain
 {
@@ -16,20 +12,21 @@ namespace TaskManager.Domain
             High    = 3
         }
 
-        public int      Id              { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Please, enter the title")]
-        public string   Title           { get; set; }
+        public string Title { get; set; }
         
-        public string   Comment         { get; set; }
+        public string Comment { get; set; }
 
         [Required(ErrorMessage = "Please, select the priority")]
-        public Priority TaskPriority    { get; set; }
+        public Priority TaskPriority { get; set; }
 
         [Required(ErrorMessage = "Please enter the due time")]
-        public DateTime DueTime         { get; set; }
+        public DateTime DueTime { get; set; }
 
-        public bool     IsComplete      { get; set; }
-        public string   OwnerId         { get; set; }
+        public bool IsComplete { get; set; }
+
+        public string OwnerId { get; set; }
     }
 }

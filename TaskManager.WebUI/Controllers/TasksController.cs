@@ -12,8 +12,6 @@ namespace TaskManager.WebUI.Controllers
     [Authorize]
     public class TasksController : Controller
     {
-        //
-        // GET: /Tasks/
         public ActionResult Index(TasksIndexMode indexMode = TasksIndexMode.All)
         {
             List<ToDoTask> tasks = null;
@@ -46,11 +44,13 @@ namespace TaskManager.WebUI.Controllers
                                 .Where(t => !t.IsComplete && t.DueTime.Ticks < DateTime.Now.Ticks)
                                 .ToList<ToDoTask>();
                         } break;
-                    default: break; // all tasks;
+
+                    default: break; // All tasks.
                 }
             }
 
             var taskGroups = (from task in tasks
+                             orderby task.DueTime
                              group task by task.DueTime.Date into tasksGroup
                              select new TasksIndexModel.TasksGroup
                                  {
@@ -59,13 +59,12 @@ namespace TaskManager.WebUI.Controllers
                                  }).OrderBy(taskGroup => taskGroup.Date);
 
             return View(new TasksIndexModel
-            {
-                IndexMode = indexMode,
-                GroupsByDate = taskGroups
-            });
+                {
+                    IndexMode = indexMode,
+                    GroupsByDate = taskGroups
+                });
         }
 
-        [HttpGet]
         public ActionResult Edit(int taskId, string returnUrl)
         {
             ToDoTask task = null;
@@ -97,6 +96,7 @@ namespace TaskManager.WebUI.Controllers
                     else
                     {
                         ToDoTask dbEntry = db.ToDoTasks.Find(taskModel.TheTask.Id);
+                        
                         if (dbEntry != null)
                         {
                             dbEntry.Title = taskModel.TheTask.Title;
@@ -106,6 +106,7 @@ namespace TaskManager.WebUI.Controllers
                             dbEntry.DueTime = taskModel.TheTask.DueTime;
                         }
                     }
+
                     db.SaveChanges();
                 }
 

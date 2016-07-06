@@ -20,15 +20,19 @@
     
                         switch (Model.TaskPriority)
                         {
-                            case TaskManager.Domain.ToDoTask.Priority.Low: 
-                                labelStyle = "success"; 
-                                break;
+                            case TaskManager.Domain.ToDoTask.Priority.Low:
+                                {
+                                    labelStyle = "success"; 
+                                } break;
                             case TaskManager.Domain.ToDoTask.Priority.Normal: 
-                                labelStyle = "primary"; 
-                                break;
+                                {
+                                    labelStyle = "primary"; 
+                                } break;
                             case TaskManager.Domain.ToDoTask.Priority.High: 
-                                labelStyle = "warning"; 
-                                break;
+                                {
+                                    labelStyle = "warning"; 
+                                } break;
+                            
                             default: 
                                 throw new ArgumentException("Unexpected task priority");
                         }
@@ -49,8 +53,8 @@
                         actionName: "Edit",
                         controllerName: "Tasks",
                         routeValues: new { taskId = Model.Id, returnUrl = Request.Url },
-                        htmlAttributes: new { @class = "task-title text-center" 
-                    })
+                        htmlAttributes: new { @class = "task-title text-center" }
+                    )
                 </div>
                 
                 <div class="col-md-1">
@@ -80,7 +84,6 @@
                             </button>
                         }
                     </div>
-
                 </div>
             </div>
         </div>

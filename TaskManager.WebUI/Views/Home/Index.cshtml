@@ -13,6 +13,10 @@
                     <h2 class="task-list-heading text-center">No tasks for today</h2>
                 </div>
             </div>
+            <a href="@Url.Action("Create", "Tasks", new { returnUrl = Request.Url })"
+                       class="btn btn-success btn-md">
+                        <span class="glyphicon glyphicon-plus" />
+            </a>
         }
         else
         {

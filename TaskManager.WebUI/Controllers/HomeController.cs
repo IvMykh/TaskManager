@@ -11,8 +11,6 @@ namespace TaskManager.WebUI.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
         public ActionResult Index()
         {
             List<ToDoTask> model = null;
@@ -26,9 +24,9 @@ namespace TaskManager.WebUI.Controllers
 
                 var tasks = db.ToDoTasks.ToList<ToDoTask>();
 
-                model = tasks.Where(
-                    t => t.OwnerId.CompareTo(userId) == 0 && 
-                         t.DueTime.Ticks > todayStart.Ticks && t.DueTime.Ticks < todayEnd.Ticks)
+                model = tasks
+                    .Where(t => t.OwnerId.CompareTo(userId) == 0 && 
+                                t.DueTime.Ticks > todayStart.Ticks && t.DueTime.Ticks < todayEnd.Ticks)
                     .OrderBy(t => t.DueTime)
                     .ToList<ToDoTask>();
             }
@@ -36,7 +34,6 @@ namespace TaskManager.WebUI.Controllers
             return View(model);
         }
 
-        [Authorize]
         [ChildActionOnly]
         public ActionResult GetDaySummary()
         {
@@ -65,11 +62,6 @@ namespace TaskManager.WebUI.Controllers
                     t => t.OwnerId.CompareTo(userId) == 0 &&
                          t.DueTime.Ticks > DateTime.Now.Ticks && t.DueTime.Ticks < todayEnd.Ticks &&
                          !t.IsComplete);
-
-                var m = db.ToDoTasks.Where(
-                    t => t.OwnerId.CompareTo(userId) == 0 &&
-                         DateTime.Now <= t.DueTime && t.DueTime < todayEnd &&
-                         !t.IsComplete).ToList<ToDoTask>();
             }
 
             return PartialView("_DaySummaryPartial", model);

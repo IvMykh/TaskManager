@@ -3,19 +3,26 @@
     ViewBag.Title = "Log In";
 }
 
-<h2>Log In</h2>
-
 @Html.ValidationSummary(true)
 
-<div class="panel">
-    @using (Html.BeginForm())
-    {
-        <div class="panel-group">
-            @Html.EditorForModel()
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h2>Log in</h2>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    <div class="panel-group">
+                        @Html.EditorForModel()
+                    </div>
+                    <div class="panel-group">
+                        <button class="btn btn-success" type="submit">Log In</button>
+                        @Html.ActionLink("Register", "Register", "Account", new { @class = "btn btn-primary" })
+                    </div>
+                }
+            </div>
         </div>
-        <div class="panel-group">
-            <button class="btn btn-success" type="submit">Log In</button>
-            @Html.ActionLink("Register", "Register", "Account", new { @class = "btn btn-primary" })
-        </div>
-    }
+    </div>
 </div>
