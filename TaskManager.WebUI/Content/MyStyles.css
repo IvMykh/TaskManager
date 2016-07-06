@@ -1,0 +1,97 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: Verdana;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+
+/* My styles*/
+.my-footer {
+    font-weight: bold;
+}
+
+th, td {
+    text-align: center;
+}
+
+.task-list-heading {
+    font-weight: bold;
+}
+
+.due-time {
+    font-family: Consolas;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.task-title {
+    font-size: larger;
+    font-family: 'Century Gothic';
+}
+
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.my-sucess-background {
+    background-color: #ccffcc;
+}
+
+.my-default-background {
+    background-color: #e6eeff;
+}
+
+.my-overdue-background {
+    background-color: #ffe6e6;
+}
+
+.day-summary-heading {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.day-summary-item {
+    font-size: larger;
+}
+
+.day-summary-total {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}

@@ -1,0 +1,32 @@
+﻿@model TaskManager.WebUI.Models.TasksIndexModel
+
+@{
+    ViewBag.Title = string.Format("Index {0} tasks", Model.IndexMode.ToString());
+}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @if (Model == null || Model.GroupsByDate.Count() == 0)
+        {
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h2 class="task-list-heading text-center">No tasks for today</h2>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="task-list-heading text-center">@Model.IndexMode.ToString() tasks</h2>
+                </div>
+                <div class="panel-body">
+                    @foreach (var taskGroup in Model.GroupsByDate)
+	                {
+	                	 @Html.Partial("_ToDoTaskGroupPartial", taskGroup)
+	                }
+                </div>
+            </div>
+        }
+    </div>
+</div>

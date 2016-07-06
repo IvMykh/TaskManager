@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TaskManager.Domain.ToDoTask>
+
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @if (Model == null || Model.Count() == 0)
+        {
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h2 class="task-list-heading text-center">No tasks for today</h2>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="task-list-heading text-center">Your tasks for today</h2>
+                </div>
+                <div class="panel-body">
+                    @foreach (var task in Model)
+	                {
+	                	 @Html.Partial("_ToDoTaskPartial", task)
+	                }
+                </div>
+                <div class="panel-footer">
+                    <a href="@Url.Action("CreateNew", "Tasks")"
+                       class="btn btn-success btn-sm">
+                        <span class="glyphicon glyphicon-plus" />
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

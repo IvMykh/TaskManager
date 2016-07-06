@@ -1,0 +1,42 @@
+﻿@model TaskManager.WebUI.Models.DaySummaryModel
+@using TaskManager.WebUI.Models
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <h4 class="day-summary-heading text-center">
+                <span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.ToShortDateString()
+            </h4>
+        </div>
+    </div>
+    <div class="panel-body">
+
+        @Html.Partial("_DaySummaryItemPartial", 
+            new DaySummaryItemModel {
+                Caption = "Complete tasks",
+                Quantity = Model.CompleteTasksQuantity,
+                StyleClass = "my-sucess-background"
+            })
+
+        @Html.Partial("_DaySummaryItemPartial",
+            new DaySummaryItemModel {
+                Caption = "Overdue tasks",
+                Quantity = Model.OverdueTasksQuantity,
+                StyleClass = "my-overdue-background"
+            })
+
+        @Html.Partial("_DaySummaryItemPartial", 
+            new DaySummaryItemModel {
+                Caption = "Pending tasks",
+                Quantity = Model.PendingTasksQuantity,
+                StyleClass = "my-default-background"
+            })
+
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <p class="col-sm-10 day-summary-total">Total:</p>
+                    <p class="col-sm-2 day-summary-total">@Model.Total</p>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,72 @@
+﻿@model TaskManager.Domain.ToDoTask
+
+@{
+    var panelBackgroundStyle = "";
+
+    if (Model.IsComplete) {
+        panelBackgroundStyle = "my-sucess-background";
+    } else if (Model.DueTime < DateTime.Now) {
+        panelBackgroundStyle = "my-overdue-background";
+    } else {
+        panelBackgroundStyle = "my-default-background";
+    }
+    
+    <div class="panel panel-default @panelBackgroundStyle">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    @{
+                        var labelStyle = "";
+    
+                        switch (Model.TaskPriority)
+                        {
+                            case TaskManager.Domain.ToDoTask.Priority.Low: 
+                                labelStyle = "success"; 
+                                break;
+                            case TaskManager.Domain.ToDoTask.Priority.Normal: 
+                                labelStyle = "primary"; 
+                                break;
+                            case TaskManager.Domain.ToDoTask.Priority.High: 
+                                labelStyle = "warning"; 
+                                break;
+                            default: 
+                                throw new ArgumentException("Unexpected task priority");
+                        }
+                        <h4><span class="label label-@labelStyle pull-left">@Model.TaskPriority.ToString()</span></h4>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <p class="text-center">
+                        <span class="glyphicon glyphicon-time" />
+                        <span class="due-time">
+                            @string.Format("{0:D2}:{1:D2}", Model.DueTime.Hour, Model.DueTime.Minute)
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    @Html.ActionLink(
+                        linkText: Model.Title,
+                        actionName: "Edit",
+                        controllerName: "Tasks",
+                        routeValues: null,
+                        htmlAttributes: new { @class = "task-title text-center" })
+                </div>
+                
+                <div class="col-md-1">
+                    @if (!Model.IsComplete)
+                    {
+                        <a href="@Url.Action("MarkAsComplete", "Tasks")"
+                           class="btn btn-success btn-sm">
+                            <span class="glyphicon glyphicon-ok" />
+                        </a>
+                    }
+    
+                    <a href="@Url.Action("Remove", "Meal")"
+                       class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-remove" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

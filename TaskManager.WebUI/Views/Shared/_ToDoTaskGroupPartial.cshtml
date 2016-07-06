@@ -1,0 +1,16 @@
+﻿@model TaskManager.WebUI.Models.TasksIndexModel.TasksGroup
+
+<div class="panel @(Model.Date.Equals(DateTime.Today) ? "panel-primary" : "panel-info")">
+    <div class="panel-heading">
+        <p class="task-list-heading text-center">
+            <span class="glyphicon glyphicon-calendar"></span> @Model.Date.ToShortDateString()
+        </p>
+    </div>
+    <div class="panel-body">
+        @foreach (var task in Model.Tasks)
+        {
+            @Html.Partial("_ToDoTaskPartial", task);
+        }
+    </div>
+</div>
+

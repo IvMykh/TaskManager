@@ -1,0 +1,21 @@
+﻿@model TaskManager.WebUI.Models.LogInModel
+@{
+    ViewBag.Title = "Log In";
+}
+
+<h2>Log In</h2>
+
+@Html.ValidationSummary(true)
+
+<div class="panel">
+    @using (Html.BeginForm())
+    {
+        <div class="panel-group">
+            @Html.EditorForModel()
+        </div>
+        <div class="panel-group">
+            <button class="btn btn-success" type="submit">Log In</button>
+            @Html.ActionLink("Register", "Register", "Account", new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>

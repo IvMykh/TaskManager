@@ -1,0 +1,74 @@
+﻿@using TaskManager.Domain;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/MyStyles.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="container navbar-default">
+            <ul class="nav nav-tabs">
+                <li>
+                    @Html.ActionLink("Home", "Index", "Home")
+                </li>
+               
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tasks<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("All Tasks", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Complete Tasks", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Pending Tasks", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Overdue tasks", "Index", "Home")</li>
+                    </ul>
+                </li>
+
+                <li>@Html.Partial("_LoginPartial")</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container body-content">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success">@TempData["message"]</div>
+        }
+
+        @if (TempData["errorMessage"] != null)
+        {
+            var errors = TempData["errorMessage"] as List<string>;
+
+            foreach (var error in errors)
+            {
+                <div class="alert alert-danger">@(error)</div>
+            }
+        }
+
+        <div class="row">
+            <div class="col-md-3">
+                @if (Request.IsAuthenticated)
+                {
+                    @Html.Action("GetDaySummary", "Home")
+                }
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+        <hr />
+        <footer class="panel panel-footer">
+            <p class="my-footer text-center text-uppercase">&copy; @DateTime.Now.Year - Task Manager</p>
+        </footer>
+    </div>
+</body>
+</html>
